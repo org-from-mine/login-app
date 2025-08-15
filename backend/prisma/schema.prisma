@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // coloque DATABASE_URL=file:./dev.db no .env
+}
+
+model User {
+  id       Int     @id @default(autoincrement()) // PK auto-increment
+  email    String  @unique // único
+  password String // hash da senha (não salvar em plaintext)
+  name     String? // opcional              // timestamp de atualização automática
+}
+
+enum Role {
+  USER
+  ADMIN
+}

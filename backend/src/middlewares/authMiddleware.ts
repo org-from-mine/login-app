@@ -17,10 +17,23 @@ export const authMiddleware = (
 ): void | Response => {
   try {
     const cookieName = process.env.COOKIE_NAME || "token";
-    console.log("Cookies recebidos", req.cookies);
-    console.log("Token específico", req.cookies?.[cookieName]);
 
-    const token = req.cookies?.[cookieName];
+    console.log("=== Debug Cookies ===");
+    console.log("Request URL:", req.url);
+    console.log("Request Method:", req.method);
+    console.log("Headers completos:", JSON.stringify(req.headers, null, 2));
+    console.log("Cookie header bruto:", req.headers.cookie);
+    console.log("Cookies parseados:", req.cookies);
+    console.log("Cookie específico:", req.cookies?.[cookieName]);
+    console.log("===================");
+
+    const token =
+      req.cookies?.[cookieName] ||
+      req.headers?.authorization?.replace("Bearer ", "") ||
+      req.headers?.cookie
+        ?.split(":")
+        .find((c) => c.trim().startsWith(`${cookieName}=`))
+        ?.split("=")[1];
 
     if (!token) {
       return res.status(401).json({ error: "Token não encontrado." });
@@ -36,7 +49,7 @@ export const authMiddleware = (
     req.user = payload;
     next();
   } catch (err) {
-    console.error("Erro no middleware de autenticação:", err);
+    console.error("Erro detalhado:", err);
     return res.status(500).json({ error: "Erro interno no servidor." });
   }
 };

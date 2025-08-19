@@ -113,14 +113,17 @@ export const login = async (req: Request<{}, {}, LoginBody>, res: Response) => {
     }
 
     // Cria o token e configura o cookie em uma única chamada
-    createAuthToken(
+    const token = createAuthToken(
       {
         userId: user.id.toString(),
         email: user.email,
       },
       res
     );
-
+    console.log("Cookie sendo definido:", {
+      token: token.substring(0, 20) + "...",
+      cookieName: process.env.COOKIE_NAME || "token",
+    });
     const { password: _, ...safeUser } = user;
     return res.json({ user: safeUser });
   } catch (err) {

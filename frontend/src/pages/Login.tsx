@@ -1,42 +1,72 @@
-// src/pages/Login.tsx
-import { useState } from "react";
-import { loginUser } from "../api/auth";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/UI/Button';
+import { Input } from '../components/UI/Input';
+import { useAuth } from '../contexts/AuthContext';
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const { login, isLoading } = useAuth();
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    
     try {
-      await loginUser(email, password);
-      // Redirecionar para dashboard
-      window.location.href = "/dashboard";
-    } catch (error) {
-      console.error(error);
-      alert("Login falhou");
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Email ou senha inválidos');
+      console.error('Erro no login:', err);
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border p-2"
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="border p-2"
-      />
-      <button type="submit" className="bg-blue-500 text-white p-2">
-        Entrar
-      </button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Login
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <div className="rounded-md bg-red-50 p-4">
+              <div className="text-sm text-red-700">{error}</div>
+            </div>
+          )}
+          
+          <div className="rounded-md shadow-sm -space-y-px">
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="seu@email.com"
+            />
+            <Input
+              label="Senha"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="********"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            fullWidth
+            isLoading={isLoading}
+          >
+            Entrar
+          </Button>
+        </form>
+      </div>
+    </div>
   );
-}
+};

@@ -2,16 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CookieService = void 0;
 class CookieService {
-    static getConfig() {
-        return {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+    static setAuthCookie(res, token) {
+        const cookieOptions = {
+            httpOnly: false,
+            secure: false,
             sameSite: "lax",
             maxAge: this.MAX_AGE,
+            path: "/",
+            domain: "localhost",
         };
-    }
-    static setAuthCookie(res, token) {
-        res.cookie(this.COOKIE_NAME, token, this.getConfig());
+        console.log("Debug cookie:", {
+            name: this.COOKIE_NAME,
+            tokenPreview: token.substring(0, 20) + "...",
+            options: cookieOptions,
+        });
+        res.cookie(this.COOKIE_NAME, token, cookieOptions);
     }
     static clearAuthCookie(res) {
         res.clearCookie(this.COOKIE_NAME);

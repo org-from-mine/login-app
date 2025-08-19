@@ -92,10 +92,14 @@ const login = async (req, res) => {
         if (!isValid) {
             return res.status(401).json({ error: "Credenciais inválidas." });
         }
-        (0, jwt_1.createAuthToken)({
+        const token = (0, jwt_1.createAuthToken)({
             userId: user.id.toString(),
             email: user.email,
         }, res);
+        console.log("Cookie sendo definido:", {
+            token: token.substring(0, 20) + "...",
+            cookieName: process.env.COOKIE_NAME || "token",
+        });
         const { password: _ } = user, safeUser = __rest(user, ["password"]);
         return res.json({ user: safeUser });
     }

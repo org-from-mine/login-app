@@ -6,12 +6,14 @@
       "es2017",
       "esnext.asynciterable"
     ],
+    "strict": true,
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
     ],
     "skipLibCheck": true,
     "sourceMap": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "moduleResolution": "node",
     "removeComments": true,

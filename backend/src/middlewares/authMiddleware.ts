@@ -18,15 +18,6 @@ export const authMiddleware = (
   try {
     const cookieName = process.env.COOKIE_NAME || "token";
 
-    console.log("=== Debug Cookies ===");
-    console.log("Request URL:", req.url);
-    console.log("Request Method:", req.method);
-    console.log("Headers completos:", JSON.stringify(req.headers, null, 2));
-    console.log("Cookie header bruto:", req.headers.cookie);
-    console.log("Cookies parseados:", req.cookies);
-    console.log("Cookie específico:", req.cookies?.[cookieName]);
-    console.log("===================");
-
     const token =
       req.cookies?.[cookieName] ||
       req.headers?.authorization?.replace("Bearer ", "") ||

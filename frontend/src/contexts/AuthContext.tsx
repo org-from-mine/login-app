@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { type User, loginUser, getCurrentUser } from '../services/api';
+import { type User, loginUser, api } from '../services/api';
 
 interface AuthContextData {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -24,13 +25,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const register = useCallback(async (name: string, email: string, password: string) => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.post('/register', { name, email, password });
+      setUser(data.user);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+
   const logout = useCallback(() => {
     setUser(null);
     // Adicionar lógica de logout no backend posteriormente
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

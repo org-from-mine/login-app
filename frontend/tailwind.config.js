@@ -10,18 +10,21 @@ export default {
       colors: {
         primary: {
           50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0ea5e9',
+          100: '#D0E1F0',
+          500: '#BDD5EA',
           600: '#0284c7',
           700: '#0369a1',
+        },
+        secondary: {
+          50: '#DDFC74',
         }
       },
       backgroundColor: {
         'light': '#ffffff',
-        'dark': '#1a1a1a',
+        'dark': '#0C1B31',
       },
       textColor: {
-        'light': '#000000',
+        'light': '#0C1B31',
         'dark': '#ffffff',
       }
     },

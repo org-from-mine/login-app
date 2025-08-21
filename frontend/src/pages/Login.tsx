@@ -66,11 +66,11 @@ export const Login = () => {
   // ...existing handleSubmit code...
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="dark:bg-dark dark:text-dark min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold text-gray-900">
+          <h2 className="dark:text-dark text-3xl font-extrabold text-gray-900">
             Bem-vindo
           </h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -143,7 +143,7 @@ export const Login = () => {
             <div className="mt-6 text-center">
               <Link 
                 to="/register" 
-                className="font-medium text-primary-600 hover:text-primary-500"
+                className="font-medium text-primary-600 text-secondary-50 dark:text-primary-100 hover:text-light"
               >
                 Criar uma nova conta
               </Link>

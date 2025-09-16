@@ -27,7 +27,7 @@ export const Register = () => {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('As senhas não conferem');
+      setError('As senhas não correspondem');
       return;
     }
 
